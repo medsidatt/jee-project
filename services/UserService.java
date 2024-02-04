@@ -16,7 +16,7 @@ public class UserService {
 	 private static final List<Stock> stocks = new ArrayList<Stock>();
 
 	    static {
-	    	usersMap.put(1, new User(1, "directeur", "directeur", "directeur"));
+	    	usersMap.put(1, new User(1, "directeur", "directeur", "directeur", new Magasin("magasin1", null)));
 	    	usersMap.put(2, new User(2, "admin", "admin", "admin"));
 
 	    }

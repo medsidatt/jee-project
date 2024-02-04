@@ -2,6 +2,9 @@ package mr.iscae;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,7 +22,7 @@ public class CreateStockServlet extends HttpServlet {
 	            throws ServletException, IOException {
 	        response.setContentType("text/html");
 	        PrintWriter out = response.getWriter();
-	        
+	        List<Magasin> magasins = STOCK_SERVICE.getAllMagasins();
 
 	        out.println("<html><head><title>Create Product</title></head><body>");
 	        out.println("<h2>Create Product</h2>");
@@ -32,6 +35,19 @@ public class CreateStockServlet extends HttpServlet {
 
 	        out.println("<label for='price'>Price:</label>");
 	        out.println("<input type='text' id='price' name='price' required><br>");
+	        
+	        out.println("<label for='magasin'>Magasin:</label>");
+	        out.println("<select  id='magasin' name='price >");
+	        	out.print("<option >hello</option>");
+	        	out.print("<option >hello</option>");
+	        	out.print("<option >hello</option>");
+	        out.println("</select><br>");
+	        
+//	        out.println("<select  id='magasin' name='price >");
+//	        for(Magasin magasin : magasins) {
+//	        	out.print("<option >hello</option>");
+//	        }
+//	        out.println("</select><br>");
 
 	        out.println("<label for='quantity'>Quantity:</label>");
 	        out.println("<input type='text' id='quantity' name='quantity' required><br>");
@@ -49,10 +65,10 @@ public class CreateStockServlet extends HttpServlet {
            String barcode = request.getParameter("barcode");
            double price = Double.parseDouble(request.getParameter("price"));
            int quantity = Integer.parseInt(request.getParameter("quantity"));
-
+           
            Stock stock = new Stock(barcode, productName, price, quantity);
            
-           STOCK_SERVICE.createStock(stock);
+           STOCK_SERVICE.addStockToMagasin("directeur", stock);
        }else
        		response.getWriter().print("Vous n'avez pas l'access");
        	
@@ -60,8 +76,12 @@ public class CreateStockServlet extends HttpServlet {
     }
     
     public boolean getRole(HttpServletRequest request) {
-    	if(request.getSession() != null && request.getSession().getAttribute("role") != null) {
-    		return true;
+    	
+    	boolean session = request.getSession() != null;
+    	if(session) {
+    		String role = (String) request.getSession().getAttribute("role");;
+    		if(role != null && (role.equals("directeur") || role.equals("admin")))
+    			return true;
     	}
     	return false;
     }

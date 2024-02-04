@@ -9,15 +9,18 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import mr.iscae.services.StockService;
 
-@Path("/secure/admin")
+@Path("/secure/directeur")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class DirecteurRessource {
 	private final StockService stockService = new StockService();
+	
 	@GET
 	@Path("/produits")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
 	public List<Stock> getAllStocks () {
 		return stockService.getAllStocks();
 	}
+	
+	
 
 }

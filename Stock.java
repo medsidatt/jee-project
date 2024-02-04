@@ -12,7 +12,9 @@ public class Stock {
 	@JsonProperty
 	private int quantity;
 	
-	
+	public Stock() {
+		
+	}
 	public Stock(String barcode, String name, double price, int quantity) {
 		this.barcode = barcode;
 		this.name = name;

@@ -31,8 +31,16 @@ public class AuthFilter implements Filter  {
         if(loggedIn) {
         	String role = session.getAttribute("role").toString();
         	if(role.equals("admin")) {
-        		httpResponse.sendRedirect(baseUrl + "/secure/" + role);
-        	}
+        		chain.doFilter(httpRequest, httpResponse);
+        		System.out.println(role + "Admin");
+        	}else if (role.equals("directeur")) {
+        		System.out.println(role + "Directeur");
+//        		chain.doFilter(httpRequest, httpResponse);
+			}else {
+				httpResponse.sendRedirect(baseUrl + "/login");
+			}
+        }else {
+        	httpResponse.sendRedirect(baseUrl + "/login");
         }
 	}
 	
